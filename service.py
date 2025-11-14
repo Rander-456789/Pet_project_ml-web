@@ -28,7 +28,7 @@ model = joblib.load('model.pkl')
 
 @app.get("/")
 def root():
-    return FileResponse("frontend/index.html")
+    return FileResponse("frontend/index2.html")
 
 @app.post('/score')
 def score(data: ClientData):
