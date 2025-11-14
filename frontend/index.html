@@ -1,10 +1,11 @@
 <!DOCTYPE html>
-<html>
+<html lang="ru">
 <head>
   <meta charset="UTF-8">
   <title>Кредитная заявка</title>
 </head>
 <body>
+
   <h2>Проверка одобрения кредита</h2>
 
   <label>Возраст:</label>
@@ -21,38 +22,31 @@
 
   <p id="result"></p>
 
-  <script>
-    async function sendForm() {
-      // 1. Получаем значения из полей
-      const age = parseInt(document.getElementById("age").value);
-      const income = parseFloat(document.getElementById("income").value);
-      const education = document.getElementById("education").checked;
-      const work = document.getElementById("work").checked;
-      const car = document.getElementById("car").checked;
+<script>
+async function sendForm() {
+  const age = parseInt(document.getElementById("age").value);
+  const income = parseFloat(document.getElementById("income").value);
+  const education = document.getElementById("education").checked;
+  const work = document.getElementById("work").checked;
+  const car = document.getElementById("car").checked;
 
-      // 3. Отправляем запрос на backend
-      const response = await fetch("https://credit-ml-service.onrender.com/score", {
-        method: "POST",
-        headers: {"Content-Type": "application/json"},
-        body: JSON.stringify({
-          age: age,
-          income: income,
-          education: education,
-          work: work,
-          car: car
-        })
-      });
+  document.getElementById("result").innerText = "Отправляем...";
 
-      // 4. Получаем ответ от backend-а
-      const data = await response.json();
+  const response = await fetch("/score", {
+    method: "POST",
+    headers: {"Content-Type": "application/json"},
+    body: JSON.stringify({ age, income, education, work, car })
+  });
 
-      // 5. Показываем результат пользователю
-      if (data.approved) {
-        document.getElementById("result").innerText = "✅ Заявка одобрена!";
-      } else {
-        document.getElementById("result").innerText = "❌ Заявка отклонена.";
-      }
-    }
-  </script>
+  const data = await response.json();
+
+  if (data.approved) {
+    document.getElementById("result").innerText = "Заявка одобрена!";
+  } else {
+    document.getElementById("result").innerText = "Заявка отклонена.";
+  }
+}
+</script>
+
 </body>
 </html>
