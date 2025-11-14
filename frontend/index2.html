@@ -127,7 +127,8 @@
       resultDiv.innerHTML = "⏳ Отправка данных...";
 
       try {
-        const response = await fetch("http://127.0.0.1:8000/score", {
+        // ⬇ ВАЖНО: Путь заменён на относительный
+        const response = await fetch("/score", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ age, income, education, work, car }),
